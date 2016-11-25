@@ -1,0 +1,38 @@
+{
+    "name": "ipapikas/gatekeeper",
+    "description": "GateKeeper allows you to hide part of your product and make it active under given circumstances.",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/ioannis-papikas/gatekeeper/issues",
+        "source": "https://github.com/ioannis-papikas/gatekeeper"
+    },
+    "authors": [
+        {
+            "name": "Ioannis Papikas",
+            "email": "papikas.ioan@gmail.com",
+            "homepage": "https://ipapikas.me"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "symfony/http-foundation": "2.8.*|3.0.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gatekeeper\\": "src/Gatekeeper"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Gatekeeper\\": "tests/Gatekeeper"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}
