@@ -9,16 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Gatekeeper\Handler;
+namespace Gatekeeper\Keeper;
 
 /**
- * Class AbstractHandler. Base Keeper Handler for providing basic support and guidelines
- * @package Gatekeeper\Handler
+ * Class AbstractKeeper. Base Keeper for providing basic support and guidelines
+ * @package Gatekeeper\Keeper
  */
-abstract class AbstractHandler implements HandlerInterface
+abstract class AbstractKeeper implements KeeperInterface
 {
     /**
      * {@inheritdoc}
      */
-    abstract public function handle($gateName);
+    abstract public function allow($gateName);
 }
