@@ -10,10 +10,13 @@
  */
 
 namespace Gatekeeper\Keeper;
+
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class AbstractKeeper. Base Keeper for providing basic support and guidelines
+ * Class IpAddressKeeper
+ * Checks the request ip against allowed and blocked ips and sub networks
+ *
  * @package Gatekeeper\Keeper
  */
 class IpAddressKeeper extends AbstractKeeper
