@@ -62,7 +62,7 @@ class Gatekeeper
     /**
      * Pushes a keeper on to the stack.
      *
-     * @param  KeeperInterface $keeper
+     * @param KeeperInterface $keeper
      *
      * @return $this
      */
@@ -92,13 +92,13 @@ class Gatekeeper
      *
      * If a map is passed, keys will be ignored.
      *
-     * @param  KeeperInterface[] $keepers
+     * @param KeeperInterface[] $keepers
      *
      * @return $this
      */
     public function setKeepers(array $keepers)
     {
-        $this->keepers = array();
+        $this->keepers = [];
         foreach (array_reverse($keepers) as $keeper) {
             $this->pushKeeper($keeper);
         }

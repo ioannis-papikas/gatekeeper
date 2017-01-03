@@ -64,7 +64,6 @@ class IpAddressKeeper extends AbstractKeeper
         }
         // Check for sub-networks
         foreach ($this->allowedIps as $allowedIp) {
-
         }
 
         // Check if ip is in blocked ips
@@ -73,7 +72,6 @@ class IpAddressKeeper extends AbstractKeeper
         }
         // Check for sub-networks
         foreach ($this->blockedIps as $blockedIp) {
-
         }
 
         return true;
