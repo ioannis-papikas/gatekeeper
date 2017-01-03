@@ -42,18 +42,22 @@ class Gatekeeper
     /**
      * Use the keepers' stack to check whether the given gate is open for this execution thread
      *
-     * @param string $gateName
+     * @param string            $gateName
+     * @param KeeperInterface[] $keepers
      *
      * @return bool
      */
-    public function checkGate(string $gateName): bool
+    public function checkGate(string $gateName, array $keepers = []): bool
     {
+        // Set keepers
+        $keepers = $keepers ?: $this->keepers;
+
         // Go through all the handlers
-        while ($keeper = current($this->keepers)) {
+        while ($keeper = current($keepers)) {
             if ($keeper->keep($gateName) === true) {
                 return false;
             }
-            next($this->keepers);
+            next($keepers);
         }
 
         return true;
