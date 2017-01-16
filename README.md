@@ -48,7 +48,8 @@ $container->set(GateKeeper::class, $gateKeeper);
 ```
 <?php
 
-// At any point in our code, we can simply get the GateKeeper (from a container or from the singleton that we created) and check for any gate
+// At any point in our code, we can simply get the GateKeeper and check any gate
+// Using a container (like PHP-DI) or a singleton that we have already created
 $gateKeeper = $container->get(GateKeeper::class);
 
 // Check gate
