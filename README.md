@@ -17,11 +17,11 @@ The initialization should usually happen when the application starts, so it can 
 ```
 <?php
 
-use GateKeeper\Gate;
-use GateKeeper\GateKeeper;
-use GateKeeper\GateRegistry;
-use GateKeeper\Keeper\DateTimeKeeper;
-use GateKeeper\Keeper\IpAddressKeeper;
+use Gatekeeper\Gate;
+use Gatekeeper\GateKeeper;
+use Gatekeeper\GateRegistry;
+use Gatekeeper\Keeper\DateTimeKeeper;
+use Gatekeeper\Keeper\IpAddressKeeper;
 
 // Get / Mock (Symfony) Request object
 $request = new \Symfony\Component\HttpFoundation\Request();
