@@ -70,7 +70,7 @@ class GateRegistry
      */
     public function popGate()
     {
-        if (!$this->gates) {
+        if (empty($this->gates)) {
             throw new LogicException('You tried to pop from an empty handler stack.');
         }
 
