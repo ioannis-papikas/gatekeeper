@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class IpAddressKeeper
- * Checks the request ip against allowed and blocked ips and sub networks
+ * Checks the request ip against allowed ips, blocked ips and sub networks
  *
  * @package Gatekeeper\Keeper
  */
@@ -43,7 +43,7 @@ class IpAddressKeeper extends AbstractKeeper
      * @param array   $allowedIps
      * @param array   $blockedIps
      */
-    public function __construct(Request $request, $allowedIps = [], $blockedIps = [])
+    public function __construct(Request $request, array $allowedIps = [], array $blockedIps = [])
     {
         $this->request = $request;
         $this->allowedIps = $allowedIps;
@@ -56,7 +56,10 @@ class IpAddressKeeper extends AbstractKeeper
     public function allow()
     {
         // Get current host ip
-        $currentIp = $this->request->server->get('SERVER_ADDR', '');
+        $currentIp = $this->request->server->get('SERVER_ADDR');
+        if (empty($currentIp)) {
+            return false;
+        }
 
         // Check if ip is in allowed ips
         if (in_array($currentIp, $this->allowedIps)) {
@@ -64,6 +67,9 @@ class IpAddressKeeper extends AbstractKeeper
         }
         // Check for sub-networks
         foreach ($this->allowedIps as $allowedIp) {
+            if ($this->inSubnet($currentIp, $allowedIp)) {
+                return true;
+            }
         }
 
         // Check if ip is in blocked ips
@@ -72,8 +78,30 @@ class IpAddressKeeper extends AbstractKeeper
         }
         // Check for sub-networks
         foreach ($this->blockedIps as $blockedIp) {
+            if ($this->inSubnet($currentIp, $blockedIp)) {
+                return false;
+            }
         }
 
-        return true;
+        // If the ip doesn't match anything, block it
+        return false;
+    }
+
+    /**
+     * Check if a given ip is in a given subnet
+     *
+     * @param string $ip
+     * @param string $subnet
+     *
+     * @return bool
+     */
+    private function inSubnet($ip, $subnet)
+    {
+        // Check direct equality
+        if (trim($ip) === trim($subnet)) {
+            return true;
+        }
+
+        return false;
     }
 }
