@@ -20,5 +20,5 @@ abstract class AbstractKeeper implements KeeperInterface
     /**
      * {@inheritdoc}
      */
-    abstract public function allow($gateName);
+    abstract public function allow();
 }

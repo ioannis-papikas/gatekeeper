@@ -18,9 +18,9 @@ namespace Gatekeeper\Keeper;
 interface KeeperInterface
 {
     /**
-     * @param string $gateName The gate name
+     * Check if the keeper allows gate passing or not.
      *
-     * @return bool It returns true if the gate is open on behalf of this keeper or false otherwise
+     * @return bool It returns true if the gate is open on behalf of this keeper or false otherwise.
      */
-    public function allow($gateName);
+    public function allow();
 }

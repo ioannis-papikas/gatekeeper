@@ -53,7 +53,7 @@ class IpAddressKeeper extends AbstractKeeper
     /**
      * {@inheritdoc}
      */
-    public function allow($gateName)
+    public function allow()
     {
         // Get current host ip
         $currentIp = $this->request->server->get('SERVER_ADDR', '');
