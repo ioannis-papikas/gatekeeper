@@ -17,7 +17,7 @@ namespace Gatekeeper;
  *
  * @package Gatekeeper
  */
-class GateKeeper2
+class GateKeeper
 {
     /**
      * @var GateRegistry
