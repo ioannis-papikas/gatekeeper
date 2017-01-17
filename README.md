@@ -61,3 +61,48 @@ if ($gateKeeper->checkGate('January-Feature')) {
     echo 'gate is closed';
 }
 ```
+
+### Create a custom Keeper
+You can easily create your own custom keeper that will have its own logic. The logic can include simple conditions like the weather or build more complex logic based on your user profiles or even custom beta tester programs and so on.
+
+Here is an example of how to build a proper keeper:
+```
+<?php
+
+namespace MyProject\Gatekeeper\Keeper;
+
+use Gatekeeper\Keeper\AbstractKeeper;
+
+class MyKeeper extends AbstractKeeper
+{
+    /**
+     * Implementation of keeper allow() function logic. 
+     */
+    public function allow()
+    {
+        // Implement your allow logic anyway you believe that suits your product
+        // Remember, it has to return true for the gate to open (along with the rest of the keepers)
+    }
+}
+
+...
+
+// Provide your keeper to your gate
+
+use Gatekeeper\Gate;
+use Gatekeeper\GateKeeper;
+use Gatekeeper\GateRegistry;
+MyProject\Gatekeeper\Keeper\MyKeeper;
+
+// Initialize a gate registry
+$registry = new GateRegistry();
+
+// Create a gate with MyKeeper
+$keeper = new MyKeeper();
+$gate = new Gate('January-Feature', $keeper);
+$registry->register($gate);
+
+// Create GateKeeper
+$gateKeeper = new GateKeeper($registry);
+
+```
