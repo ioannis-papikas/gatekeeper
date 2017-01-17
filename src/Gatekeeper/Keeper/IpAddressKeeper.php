@@ -15,7 +15,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class IpAddressKeeper
- * Checks the request ip against allowed ips, blocked ips and sub networks
+ * Checks the request ip against allowed ips, blocked ips and sub networks.
+ *
+ * If allowed IPs are set, the given IP must match for the keeper to allow access to the gate.
+ * If allowed IPs are not set, it will allow access unless the IP is in the blocked IPs.
+ *
+ * This version of IpAddressKeeper doesn't support sub-nets yet.
  *
  * @package Gatekeeper\Keeper
  */
@@ -24,17 +29,17 @@ class IpAddressKeeper extends AbstractKeeper
     /**
      * @var Request
      */
-    private $request;
+    private $request = null;
 
     /**
      * @var array
      */
-    private $allowedIps;
+    private $allowedIps = [];
 
     /**
      * @var array
      */
-    private $blockedIps;
+    private $blockedIps = [];
 
     /**
      * IpAddressKeeper constructor.
@@ -43,7 +48,7 @@ class IpAddressKeeper extends AbstractKeeper
      * @param array   $allowedIps
      * @param array   $blockedIps
      */
-    public function __construct(Request $request, array $allowedIps = [], array $blockedIps = [])
+    public function __construct(Request $request = null, array $allowedIps = [], array $blockedIps = [])
     {
         $this->request = $request;
         $this->allowedIps = $allowedIps;
@@ -55,13 +60,18 @@ class IpAddressKeeper extends AbstractKeeper
      */
     public function allow()
     {
-        // Get current host ip
+        // Check current request
+        if (empty($this->getRequest())) {
+            return false;
+        }
+
+        // Get current host IP
         $currentIp = $this->request->server->get('SERVER_ADDR');
         if (empty($currentIp)) {
             return false;
         }
 
-        // Check if ip is in allowed ips
+        // Check if IP is in allowed IPs
         if (in_array($currentIp, $this->allowedIps)) {
             return true;
         }
@@ -72,7 +82,12 @@ class IpAddressKeeper extends AbstractKeeper
             }
         }
 
-        // Check if ip is in blocked ips
+        // If allowed IPs are not empty but no match, return false
+        if (!empty($this->getAllowedIps())) {
+            return false;
+        }
+
+        // Check if IP is in blocked IPs
         if (in_array($currentIp, $this->blockedIps)) {
             return false;
         }
@@ -83,8 +98,9 @@ class IpAddressKeeper extends AbstractKeeper
             }
         }
 
-        // If the ip doesn't match anything, block it
-        return false;
+        // No conditions are met, no allowed IPs are set and blocking IPs are not met
+        // Default value is true
+        return true;
     }
 
     /**
@@ -103,5 +119,53 @@ class IpAddressKeeper extends AbstractKeeper
         }
 
         return false;
+    }
+
+    /**
+     * @return Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function setRequest(Request $request)
+    {
+        $this->request = $request;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllowedIps(): array
+    {
+        return $this->allowedIps;
+    }
+
+    /**
+     * @param array $allowedIps
+     */
+    public function setAllowedIps(array $allowedIps)
+    {
+        $this->allowedIps = $allowedIps;
+    }
+
+    /**
+     * @return array
+     */
+    public function getBlockedIps(): array
+    {
+        return $this->blockedIps;
+    }
+
+    /**
+     * @param array $blockedIps
+     */
+    public function setBlockedIps(array $blockedIps)
+    {
+        $this->blockedIps = $blockedIps;
     }
 }

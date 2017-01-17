@@ -28,6 +28,11 @@ class DateTimeKeeper extends AbstractKeeper
     /**
      * @var DateTime
      */
+    private $now;
+
+    /**
+     * @var DateTime
+     */
     private $after;
 
     /**
@@ -38,11 +43,13 @@ class DateTimeKeeper extends AbstractKeeper
     /**
      * DateKeeper constructor.
      *
+     * @param DateTime|null $now    Set a value to inject a current datetime, otherwise it will use system's DateTime
      * @param DateTime|null $after  Current date must be after this date (or equal) for the keeper to open
      * @param DateTime|null $before Current date must be before this date (or equal) for the keeper to open
      */
-    public function __construct(DateTime $after = null, DateTime $before = null)
+    public function __construct(DateTime $now = null, DateTime $after = null, DateTime $before = null)
     {
+        $this->now = $now;
         $this->after = $after;
         $this->before = $before;
     }
@@ -52,15 +59,39 @@ class DateTimeKeeper extends AbstractKeeper
      */
     public function allow()
     {
-        // Get current date
-        $now = new DateTime();
+        // Get current DateTime
+        $now = $this->getCurrentDateTime();
 
         // Set before and after status
-        $beforeStatus = empty($this->before) ? true : $now <= $this->before;
+        $beforeStatus = empty($this->before) ? true : $now < $this->before;
         $afterStatus = empty($this->after) ? true : $now >= $this->after;
 
         // Check if both conditions are met
         return $beforeStatus && $afterStatus;
+    }
+
+    /**
+     * @return DateTime
+     */
+    private function getCurrentDateTime()
+    {
+        return $this->now ?: new DateTime();
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getNow()
+    {
+        return $this->now;
+    }
+
+    /**
+     * @param DateTime $now
+     */
+    public function setNow(DateTime $now = null)
+    {
+        $this->now = $now;
     }
 
     /**
@@ -74,7 +105,7 @@ class DateTimeKeeper extends AbstractKeeper
     /**
      * @param DateTime $after
      */
-    public function setAfter(DateTime $after)
+    public function setAfter(DateTime $after = null)
     {
         $this->after = $after;
     }
@@ -90,7 +121,7 @@ class DateTimeKeeper extends AbstractKeeper
     /**
      * @param DateTime $before
      */
-    public function setBefore(DateTime $before)
+    public function setBefore(DateTime $before = null)
     {
         $this->before = $before;
     }
