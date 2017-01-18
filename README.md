@@ -93,7 +93,7 @@ $registry = new GateRegistry();
 
 // Create a gate with MyKeeper
 $keeper = new MyKeeper();
-$gate = new Gate('January-Feature', $keeper);
+$gate = new Gate('My-Feature', $keeper);
 $registry->register($gate);
 
 // Create GateKeeper
