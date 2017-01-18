@@ -79,14 +79,14 @@ class MyKeeper extends AbstractKeeper
     }
 }
 
-...
+// --- //
 
 // Provide your keeper to your gate
 
 use Gatekeeper\Gate;
 use Gatekeeper\GateKeeper;
 use Gatekeeper\GateRegistry;
-MyProject\Gatekeeper\Keeper\MyKeeper;
+use MyProject\Gatekeeper\Keeper\MyKeeper;
 
 // Initialize a gate registry
 $registry = new GateRegistry();
