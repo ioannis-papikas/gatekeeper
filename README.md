@@ -15,6 +15,8 @@ The initialization should usually happen when the application starts, so it can 
 
 **Initialization**
 ```php
+// [GateKeeperBootstrap].php
+
 use Gatekeeper\Gate;
 use Gatekeeper\GateKeeper;
 use Gatekeeper\GateRegistry;
@@ -44,6 +46,8 @@ $container->set(GateKeeper::class, $gateKeeper);
 
 **Gate Check**
 ```php
+// example.php
+
 // At any point in our code, we can simply get the GateKeeper and check any gate
 // Using a container (like PHP-DI) or a singleton that we have already created
 $gateKeeper = $container->get(GateKeeper::class);
@@ -63,6 +67,8 @@ You can easily create your own custom keeper that will have its own logic. The l
 
 Here is an example of how to build a proper keeper:
 ```php
+// MyKeeper.php
+
 namespace MyProject\Gatekeeper\Keeper;
 
 use Gatekeeper\Keeper\AbstractKeeper;
@@ -78,10 +84,9 @@ class MyKeeper extends AbstractKeeper
         // Remember, it has to return true for the gate to open (along with the rest of the keepers)
     }
 }
-
-// --- //
-
-// Provide your keeper to your gate
+```
+```php
+// [GateKeeperBootstrap].php
 
 use Gatekeeper\Gate;
 use Gatekeeper\GateKeeper;
