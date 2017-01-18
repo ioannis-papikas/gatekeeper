@@ -14,8 +14,7 @@ GateKeeper library consists of two parts, the initialization and the gate check.
 The initialization should usually happen when the application starts, so it can be part of the application bootstrap:
 
 **Initialization**
-```
-<?php
+```php
 
 use Gatekeeper\Gate;
 use Gatekeeper\GateKeeper;
@@ -45,8 +44,7 @@ $container->set(GateKeeper::class, $gateKeeper);
 ```
 
 **Gate Check**
-```
-<?php
+```php
 
 // At any point in our code, we can simply get the GateKeeper and check any gate
 // Using a container (like PHP-DI) or a singleton that we have already created
@@ -66,8 +64,7 @@ if ($gateKeeper->checkGate('January-Feature')) {
 You can easily create your own custom keeper that will have its own logic. The logic can include simple conditions like the weather or build more complex logic based on your user profiles or even custom beta tester programs and so on.
 
 Here is an example of how to build a proper keeper:
-```
-<?php
+```php
 
 namespace MyProject\Gatekeeper\Keeper;
 
