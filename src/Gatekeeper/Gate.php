@@ -41,9 +41,9 @@ class Gate
     /**
      * Keeper constructor.
      *
-     * @param string            $name    The gate name. It's case insensitive.
-     * @param KeeperInterface[] $keepers Gate keepers, the first one in the array is called first, etc.
-     * @param int               $condition
+     * @param string            $name      The gate name. It's case insensitive.
+     * @param KeeperInterface[] $keepers   Gate keepers, the first one in the array is called first, etc.
+     * @param int               $condition The check condition of the gate
      */
     public function __construct(string $name, array $keepers, $condition = self::CONDITION_AND)
     {
