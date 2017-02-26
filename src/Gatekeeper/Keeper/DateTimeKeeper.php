@@ -43,15 +43,15 @@ class DateTimeKeeper extends AbstractKeeper
     /**
      * DateKeeper constructor.
      *
-     * @param DateTime|null $now    Set a value to inject a current datetime, otherwise it will use system's DateTime
      * @param DateTime|null $after  Current date must be after this date (or equal) for the keeper to open
      * @param DateTime|null $before Current date must be before this date (or equal) for the keeper to open
+     * @param DateTime|null $now    Set a value to inject a current datetime, otherwise it will use system's DateTime
      */
-    public function __construct(DateTime $now = null, DateTime $after = null, DateTime $before = null)
+    public function __construct(DateTime $after = null, DateTime $before = null, DateTime $now = null)
     {
-        $this->now = $now;
         $this->after = $after;
         $this->before = $before;
+        $this->now = $now;
     }
 
     /**

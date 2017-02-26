@@ -1,6 +1,20 @@
 # GateKeeper
 GateKeeper allows you to hide part of your product and make it active under given circumstances.
 
+[![StyleCI](https://styleci.io/repos/74765148/shield)](https://styleci.io/repos/74765148)
+
+## Installation
+
+You can install the GateKeeper simply by adding the files into your project or using the composer.
+
+### Through the composer
+
+Add the following line to your `composer.json` file:
+
+```
+"ipapikas/gatekeeper": "~1.0"
+```
+
 ## Using GateKeeper
 Gatekeeper works with **gates** and with **keepers**.
 

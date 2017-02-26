@@ -19,7 +19,7 @@ use PHPUnit_Framework_TestCase;
  * Class KeeperTest
  * @package Gatekeeper
  */
-class KeeperTest extends PHPUnit_Framework_TestCase
+abstract class KeeperTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var KeeperInterface

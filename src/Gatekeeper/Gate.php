@@ -20,28 +20,36 @@ use LogicException;
  */
 class Gate
 {
+    const CONDITION_AND = 1;
+    const CONDITION_OR = 2;
+
     /**
      * @var string
      */
     protected $name;
 
     /**
-     * The gates' keeper stack
-     *
      * @var KeeperInterface[]
      */
     protected $keepers;
+
+    /**
+     * @var int
+     */
+    protected $condition;
 
     /**
      * Keeper constructor.
      *
      * @param string            $name    The gate name. It's case insensitive.
      * @param KeeperInterface[] $keepers Gate keepers, the first one in the array is called first, etc.
+     * @param int               $condition
      */
-    public function __construct(string $name, array $keepers)
+    public function __construct(string $name, array $keepers, $condition = self::CONDITION_AND)
     {
         $this->setName($name);
         $this->setKeepers($keepers);
+        $this->setCondition($condition);
     }
 
     /**
@@ -54,17 +62,23 @@ class Gate
         // Get all gate keepers
         $keepers = $this->getKeepers();
 
+        // Set default status to true if no keepers available
+        $defaultStatus = $this->getCondition() == self::CONDITION_AND || empty($keepers) ? true : false;
+
         // Go through all the handlers
         /** @var KeeperInterface $keeper */
         while ($keeper = current($keepers)) {
-            if ($keeper->allow() === false) {
+            if ($keeper->allow() === false && $this->getCondition() == self::CONDITION_AND) {
                 return false;
+            }
+            if ($keeper->allow() === true && $this->getCondition() == self::CONDITION_OR) {
+                return true;
             }
             next($keepers);
         }
 
-        // No keeper is closed, gate is open
-        return true;
+        // Return gate default status
+        return $defaultStatus;
     }
 
     /**
@@ -101,6 +115,7 @@ class Gate
      * Pops a keeper from the stack
      *
      * @return KeeperInterface
+     * @throws LogicException
      */
     public function popKeeper()
     {
@@ -136,5 +151,25 @@ class Gate
     public function getKeepers()
     {
         return $this->keepers;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCondition(): int
+    {
+        return $this->condition;
+    }
+
+    /**
+     * @param int $condition
+     *
+     * @return Gate
+     */
+    public function setCondition(int $condition): Gate
+    {
+        $this->condition = $condition;
+
+        return $this;
     }
 }

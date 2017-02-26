@@ -33,6 +33,9 @@ class GateRegistry
      * Register a gate to the registry
      *
      * @param Gate $gate
+     *
+     * @throws InvalidArgumentException
+     * @throws LogicException
      */
     public function register(Gate $gate)
     {
@@ -67,6 +70,7 @@ class GateRegistry
      * Pops a gate from the stack
      *
      * @return Gate
+     * @throws LogicException
      */
     public function popGate()
     {
